@@ -59,6 +59,7 @@ public class LandscapeAdapter extends RecyclerView.Adapter<LandscapeAdapter.Land
 
         int position;
         Landscape currentLandscape;
+        //aha!
 
         public LandscapeViewHolder(View itemView) {
             super(itemView);
