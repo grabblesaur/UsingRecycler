@@ -5,11 +5,11 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.bayar.usingrecycler.MainActivity"
-    android:paddingStart="5dp"
-    android:paddingLeft="5dp"
-    android:paddingEnd="5dp"
-    android:paddingRight="5dp">
+    tools:context="com.example.bayar.usingrecycler.MainActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
