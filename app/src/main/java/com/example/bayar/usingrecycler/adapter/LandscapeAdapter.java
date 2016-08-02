@@ -1,4 +1,4 @@
-package com.example.bayar.usingrecycler;
+package com.example.bayar.usingrecycler.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.bayar.usingrecycler.R;
 import com.example.bayar.usingrecycler.model.Landscape;
 
 import java.util.List;
@@ -38,6 +39,7 @@ public class LandscapeAdapter extends RecyclerView.Adapter<LandscapeAdapter.Land
         Log.d(TAG, "onBindViewHolder " + position);
         Landscape currentLandscape = mLandscapeList.get(position);
         holder.setData(currentLandscape, position);
+        holder.setListeners();
     }
 
     @Override
@@ -45,7 +47,19 @@ public class LandscapeAdapter extends RecyclerView.Adapter<LandscapeAdapter.Land
         return mLandscapeList.size();
     }
 
-    public class LandscapeViewHolder extends RecyclerView.ViewHolder {
+    public void removeItem(int position) {
+        mLandscapeList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, mLandscapeList.size());
+    }
+
+    public void addItem(int position, Landscape landscape) {
+        mLandscapeList.add(position, landscape);
+        notifyItemInserted(position);
+        notifyItemRangeChanged(position, mLandscapeList.size());
+    }
+
+    public class LandscapeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @BindView(R.id.item_iv)
         ImageView mItemImageView;
         @BindView(R.id.item_title)
@@ -57,7 +71,7 @@ public class LandscapeAdapter extends RecyclerView.Adapter<LandscapeAdapter.Land
         @BindView(R.id.item_ic_make_copy)
         ImageView mItemIconMakeCopy;
 
-        int position;
+        int currentPosition;
         Landscape currentLandscape;
 
         public LandscapeViewHolder(View itemView) {
@@ -69,8 +83,29 @@ public class LandscapeAdapter extends RecyclerView.Adapter<LandscapeAdapter.Land
             mItemImageView.setImageResource(currentLandscape.getImageId());
             mItemTitle.setText(currentLandscape.getTitle());
             mItemDesc.setText(currentLandscape.getDescription());
-            this.position = position;
+            this.currentPosition = position;
             this.currentLandscape = currentLandscape;
+        }
+
+        public void setListeners() {
+            mItemIconDelete.setOnClickListener(LandscapeViewHolder.this);
+            mItemIconMakeCopy.setOnClickListener(LandscapeViewHolder.this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Log.d(TAG, "onClick before operation on position: "
+                    + currentPosition + " size: " + mLandscapeList.size());
+            int id = view.getId();
+            switch (id) {
+                case R.id.item_ic_delete:
+                    removeItem(currentPosition);
+                    break;
+                case R.id.item_ic_make_copy:
+                    addItem(currentPosition, currentLandscape);
+                    break;
+            }
+            Log.d(TAG, "onClick after operation - size: " + mLandscapeList.size() + "\n\n" + mLandscapeList.toString());
         }
     }
 }

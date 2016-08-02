@@ -2,6 +2,7 @@ package com.example.bayar.usingrecycler;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.bayar.usingrecycler.adapter.LandscapeAdapter;
 import com.example.bayar.usingrecycler.model.Landscape;
 
 import java.util.List;
@@ -40,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         mRecyclerView.setLayoutManager(layoutManager);
+
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
